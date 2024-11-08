@@ -22,7 +22,7 @@ const handler = async (req: Request): Promise<Response> => {
   const url = new URL(req.url);
   const path = url.pathname;
 
-  if (method === "GET") {
+  if (method === "GET") { //leer datos
     if (path === "/users") {
       const name = url.searchParams.get("name");
       if (name) {
@@ -60,7 +60,7 @@ const handler = async (req: Request): Promise<Response> => {
       const book = fromModelToBook(bookDB);
       return new Response(JSON.stringify(book));
     }
-  } else if (method === "POST") {
+  } else if (method === "POST") { // aniadir datos
     if (path === "/user") {
       const user = await req.json();
       if (!user.name || !user.email || !user.age) {
@@ -107,7 +107,7 @@ const handler = async (req: Request): Promise<Response> => {
         { status: 201 }
       );
     }
-  } else if (method === "PUT") {
+  } else if (method === "PUT") { // actualizar datos
     if (path === "/user") {
       const user = await req.json();
       if (!user.name || !user.email || !user.age || !user.books) {
@@ -153,7 +153,7 @@ const handler = async (req: Request): Promise<Response> => {
 
       return new Response("OK", { status: 200 });
     }
-  } else if (method === "DELETE") {
+  } else if (method === "DELETE") {//Eliminar datos
     if (path === "/user") {
       const id = url.searchParams.get("id");
       if (!id) return new Response("Bad request", { status: 400 });
