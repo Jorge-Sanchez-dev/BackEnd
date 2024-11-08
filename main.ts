@@ -25,13 +25,13 @@ const handler = async (req: Request): Promise<Response> => {
   if (method === "GET") { //leer datos
     if (path === "/users") {
       const name = url.searchParams.get("name");
-      if (name) {
-        const usersDB = await usersCollection.find({ name }).toArray();
-        const users = await Promise.all(
+      if (name) { // si le encuentra muestra los usuarios
+        const usersDB = await usersCollection.find({ name }).toArray(); //consulta a la base de datos
+        const users = await Promise.all( // procesa cada usuario
           usersDB.map((u) => fromModelToUser(u, booksCollection))
         );
         return new Response(JSON.stringify(users));
-      } else {
+      } else { // sino devuelve todos los usuarios
         const usersDB = await usersCollection.find().toArray();
         const users = await Promise.all(
           usersDB.map((u) => fromModelToUser(u, booksCollection))
@@ -167,17 +167,17 @@ const handler = async (req: Request): Promise<Response> => {
 
       return new Response("OK", { status: 200 });
     } else if (path === "/book") {
-      const id = url.searchParams.get("id");
-      if (!id) return new Response("Bad request", { status: 400 });
-      const { deletedCount } = await booksCollection.deleteOne({
+      const id = url.searchParams.get("id"); 
+      if (!id) return new Response("Bad request", { status: 400 }); //Si no esta da un error
+      const { deletedCount } = await booksCollection.deleteOne({ // Elimina el id
         _id: new ObjectId(id),
       });
 
-      if (deletedCount === 0) {
+      if (deletedCount === 0) { //No se encontró por tanto no se eliminó nada
         return new Response("Book not found", { status: 404 });
       }
 
-      await usersCollection.updateMany(
+      await usersCollection.updateMany( //actualiza para eliminar todas las referencia que tenga el libro
         { books: new ObjectId(id) },
         { $pull: { books: new ObjectId(id) } }
       );
