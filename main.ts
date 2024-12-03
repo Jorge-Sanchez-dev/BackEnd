@@ -2,7 +2,7 @@ import { MongoClient, ObjectId } from "mongodb";
 import type { BookModel, UserModel } from "./types.ts";
 import { fromModelToBook, fromModelToUser } from "./utils.ts";
 
-MONGO_URL = "mongodb+srv://jsanchezl5:125343Jj@jorge-nebrija.jwrpu.mongodb.net/?retryWrites=true&w=majority&appName=Jorge-Nebrija"
+const MONGO_URL = "mongodb+srv://jsanchezl5:125343Jj@jorge-nebrija.jwrpu.mongodb.net/?retryWrites=true&w=majority&appName=Jorge-Nebrija"
 /*
 const MONGO_URL = Deno.env.get("MONGO_URL");
 if (!MONGO_URL) {
